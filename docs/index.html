@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <title>Baikonur ISO Shooter</title>
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/bg.svg" as="image">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand__logo" src="./assets/logo.svg" alt="Baikonur Shooter" />
+      <div class="brand__text">
+        <div class="brand__title">Baikonur ISO Shooter</div>
+        <div class="brand__subtitle">изометрия • магазин • лут • зоны</div>
+      </div>
+    </div>
+    <div class="topbar__right">
+      <button class="chipBtn" id="btnShop">🛒 Магазин</button>
+      <button class="iconBtn" id="btnMenu" aria-label="Меню">☰</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hud" id="hud" hidden>
+      <div class="hud__left">
+        <div class="hud__stat"><span class="muted">HP</span> <b id="hudHp">100</b></div>
+        <div class="hud__stat"><span class="muted">Shield</span> <b id="hudShield">0</b></div>
+        <div class="hud__stat"><span class="muted">Оружие</span> <b id="hudWeapon">—</b></div>
+      </div>
+      <div class="hud__right">
+        <div class="hud__stat"><span class="muted">Монеты</span> <b id="hudCoins">0</b></div>
+        <div class="hud__stat"><span class="muted">Волна</span> <b id="hudWave">1</b></div>
+        <div class="hud__stat"><span class="muted">Зона</span> <b id="hudZone">—</b></div>
+      </div>
+    </section>
+
+    <div class="stage">
+      <canvas id="game" width="960" height="600"></canvas>
+
+      <div class="touch" id="touch" hidden>
+        <div class="joystick" id="joy">
+          <div class="joystick__base"></div>
+          <div class="joystick__stick" id="joyStick"></div>
+        </div>
+        <div class="touch__right">
+          <button class="shootBtn" id="btnShoot">🔫</button>
+          <button class="dashBtn" id="btnDash">⚡</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="card" id="screenStart">
+      <h1>Битва районов — ISO Шутер</h1>
+      <p class="muted">Псевдо‑3D изометрия: бегай по району, лутай, выполняй мини‑квесты зоны и отбивай волны.</p>
+      <div class="grid" id="districtGrid"></div>
+      <div class="row">
+        <button class="primary" id="btnPlay" disabled>Играть</button>
+        <button class="secondary" id="btnHow">Управление</button>
+      </div>
+      <div class="tiny muted">MVP без сервера: прогресс сохраняется у тебя.</div>
+    </section>
+
+    <section class="card" id="screenMenu" hidden>
+      <h2>Меню</h2>
+      <div class="row">
+        <button class="secondary" id="btnResume">Продолжить</button>
+        <button class="secondary" id="btnChangeDistrict">Сменить район</button>
+      </div>
+      <div class="row">
+        <button class="secondary" id="btnShop2">Магазин</button>
+        <button class="danger" id="btnReset">Сброс прогресса</button>
+      </div>
+      <div class="tiny muted" id="tgInfo">—</div>
+      <div class="row">
+        <button class="secondary" id="btnCloseMenu">Закрыть</button>
+      </div>
+    </section>
+
+    <section class="card" id="screenHow" hidden>
+      <h2>Управление</h2>
+      <ul class="muted">
+        <li><b>ПК:</b> WASD/стрелки — движение, мышь — направление, клик — стрельба, Shift — рывок.</li>
+        <li><b>Телефон:</b> джойстик — движение, 🔫 — стрельба (автоприцел), ⚡ — рывок.</li>
+        <li><b>Зоны:</b> заходи в зону и выполняй мини‑квест (держи/зачисти) — дают бонус монет.</li>
+      </ul>
+      <div class="row"><button class="secondary" id="btnHowBack">Назад</button></div>
+    </section>
+
+    <div class="modal" id="shopModal" hidden>
+      <div class="modal__backdrop" id="shopClose"></div>
+      <div class="modal__panel">
+        <div class="modal__head">
+          <div><div class="muted">Магазин</div><div class="big">Снаряжение</div></div>
+          <div class="modal__coins">🪙 <b id="shopCoins">0</b></div>
+        </div>
+        <div class="tabs">
+          <button class="tab" data-tab="weapons">Оружие</button>
+          <button class="tab" data-tab="gear">Снаряга</button>
+          <button class="tab" data-tab="skins">Скины</button>
+          <button class="tab" data-tab="boosts">Бусты</button>
+        </div>
+        <div class="shopList" id="shopList"></div>
+        <div class="row"><button class="secondary" id="btnCloseShop">Закрыть</button></div>
+        <div class="tiny muted">Оффлайн‑MVP: покупки сохраняются локально (и в CloudStorage Telegram, если доступно).</div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </main>
+
+  <script src="./telegram.js"></script>
+  <script src="./ui.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
